@@ -16,62 +16,44 @@ else
    DEL_MAC_QUERY="delete from mydb.macaddr"
    DEL_IP_QUERY="delete from mydb.ipaddr"
    DROP_PACKET_QUERY="DROP TABLE if exists mydb.packets "
-   CREATE_TABLE_QUERY="CREATE TABLE IF NOT EXISTS mydb.packets (
-                        idPackets INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-                        time DOUBLE NULL DEFAULT NULL,
-                        macSrc INT(10) UNSIGNED NOT NULL,
-                        macDst INT(10) UNSIGNED NOT NULL,
-                        vlanTag INT UNSIGNED NOT NULL,
-                        ethType INT UNSIGNED NOT NULL,
-                        ipSrc INT(10) UNSIGNED NOT NULL,
-                        ipDst INT(10) UNSIGNED NOT NULL,
-                        ipProto INT UNSIGNED NOT NULL,
-                        portSrc INT(11) NOT NULL,
-                        portDst INT(11) NOT NULL,
-                        ipTos INT(10) UNSIGNED NOT NULL,
-                        SYN TINYINT(1) NULL DEFAULT NULL,
-                        ACK TINYINT(1) NULL DEFAULT NULL,
-                        FIN TINYINT(1) NULL DEFAULT NULL,
-                        RES TINYINT(1) NULL DEFAULT NULL,
-                        Flow INT UNSIGNED NOT NULL,
+   CREATE_TABLE_QUERY="CREATE TABLE packets (
+                        idPackets int(10) unsigned NOT NULL AUTO_INCREMENT,
+                        time double DEFAULT NULL,
+                        macSrc int(10) unsigned NOT NULL,
+                        macDst int(10) unsigned NOT NULL,
+                        vlanTag int(10) unsigned NOT NULL,
+                        ethType int(10) unsigned NOT NULL,
+                        ipSrc int(10) unsigned NOT NULL,
+                        ipDst int(10) unsigned NOT NULL,
+                        ipProto int(10) unsigned NOT NULL,
+                        portSrc int(11) NOT NULL,
+                        portDst int(11) NOT NULL,
+                        ipTos int(10) unsigned NOT NULL,
+                        SYN tinyint(1) DEFAULT NULL,
+                        ACK tinyint(1) DEFAULT NULL,
+                        FIN tinyint(1) DEFAULT NULL,
+                        RES tinyint(1) DEFAULT NULL,
+                        Flow int(10) unsigned NOT NULL,
                         PRIMARY KEY (idPackets),
-                        UNIQUE INDEX idPackets_UNIQUE (idPackets ASC),
-                        INDEX idMac_idx (macSrc ASC),
-                        INDEX vlanTag_idx (vlanTag ASC),
-                        INDEX 4_idx (ethType ASC),
-                        INDEX 5_idx (ipSrc ASC),
-                        INDEX 6_idx (ipDst ASC),
-                        INDEX 7_idx (ipProto ASC),
-                        INDEX idMac_idx1 (macDst ASC),
-                        INDEX 7_idx1 (Flow ASC),
-                        INDEX flow_gen (portSrc ASC, portDst ASC, ipSrc ASC, ipDst ASC, time ASC),
-                        CONSTRAINT \\\`1\\\`
-                          FOREIGN KEY (macSrc)
-                          REFERENCES mydb.macaddr (idMac)
-                          ON DELETE CASCADE
-                          ON UPDATE NO ACTION,
-                        CONSTRAINT \\\`2\\\`
-                          FOREIGN KEY (macDst)
-                          REFERENCES mydb.macaddr (idMac)
-                          ON DELETE CASCADE
-                          ON UPDATE NO ACTION,
-                        CONSTRAINT \\\`5\\\`
-                          FOREIGN KEY (ipSrc)
-                          REFERENCES mydb.ipaddr (idIPAddr)
-                          ON DELETE CASCADE
-                          ON UPDATE NO ACTION,
-                        CONSTRAINT \\\`6\\\`
-                          FOREIGN KEY (ipDst)
-                          REFERENCES mydb.ipaddr (idIPAddr)
-                          ON DELETE CASCADE
-                          ON UPDATE NO ACTION,
-                        CONSTRAINT \\\`7\\\`
-                          FOREIGN KEY (Flow)
-                          REFERENCES mydb.flows (idFlows)
-                          ON DELETE NO ACTION
-                          ON UPDATE NO ACTION)
-                      ENGINE = InnoDB
-                      DEFAULT CHARACTER SET = utf8";
+                        UNIQUE KEY idPackets_UNIQUE (idPackets),
+                        KEY idMac_idx (macSrc),
+                        KEY vlanTag_idx (vlanTag),
+                        KEY 4_idx (ethType),
+                        KEY 5_idx (ipSrc),
+                        KEY 6_idx (ipDst),
+                        KEY 7_idx (ipProto),
+                        KEY idMac_idx1 (macDst),
+                        KEY 7_idx1 (Flow),
+                        KEY flow_gen (portSrc,portDst,ipSrc,ipDst,time),
+                        KEY time_i (Flow,time),
+                        KEY time_s (time),
+                        CONSTRAINT 1 FOREIGN KEY (macSrc) REFERENCES macaddr (idMac) ON DELETE CASCADE ON UPDATE NO ACTION,
+                        CONSTRAINT 2 FOREIGN KEY (macDst) REFERENCES macaddr (idMac) ON DELETE CASCADE ON UPDATE NO ACTION,
+                        CONSTRAINT 5 FOREIGN KEY (ipSrc) REFERENCES ipaddr (idIPAddr) ON DELETE CASCADE ON UPDATE NO ACTION,
+                        CONSTRAINT 6 FOREIGN KEY (ipDst) REFERENCES ipaddr (idIPAddr) ON DELETE CASCADE ON UPDATE NO ACTION,
+                        CONSTRAINT 7 FOREIGN KEY (Flow) REFERENCES flows (idFlows) ON DELETE NO ACTION ON UPDATE NO ACTION
+                      ) ENGINE=InnoDB AUTO_INCREMENT=8650621 DEFAULT CHARSET=utf8;
+;
                     
                     
      
