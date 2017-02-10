@@ -70,12 +70,12 @@ else
                             CSV.DIP3 = TIP2.IP3 and 
                             CSV.DIP4 = TIP2.IP4 ;"
   
-  #eval $(printf "mysql -u root -p'%s' -e \"%s\"\n" $1 "$COPY_MAC_QUERY_SRC")
-  #eval $(printf "mysql -u root -p'%s' -e \"%s\"\n" $1 "$COPY_MAC_QUERY_DST")
+  eval $(printf "mysql -u root -p'%s' -e \"%s\"\n" $1 "$COPY_MAC_QUERY_SRC")
+  eval $(printf "mysql -u root -p'%s' -e \"%s\"\n" $1 "$COPY_MAC_QUERY_DST")
   
   
-  #eval $(printf "mysql -u root -p'%s' -e \"%s\"\n" $1 "$COPY_IP_QUERY_SRC")
-  #eval $(printf "mysql -u root -p'%s' -e \"%s\"\n" $1 "$COPY_IP_QUERY_DST")
+  eval $(printf "mysql -u root -p'%s' -e \"%s\"\n" $1 "$COPY_IP_QUERY_SRC")
+  eval $(printf "mysql -u root -p'%s' -e \"%s\"\n" $1 "$COPY_IP_QUERY_DST")
 
    eval $(printf "mysql -u root -p'%s' -e \"%s\"\n" $1 "$INSERT_PACKETS_QUERY")
 fi

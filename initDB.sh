@@ -46,7 +46,8 @@ CREATE_TABLE_QUERY="CREATE TABLE $2.packets (
   CONSTRAINT F5 FOREIGN KEY (Flow) REFERENCES $2.flows (idFlows) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT F1 FOREIGN KEY (macSrc) REFERENCES $2.macaddr (idMac) ON DELETE NO ACTION ON UPDATE NO ACTION
   ) ENGINE=InnoDB AUTO_INCREMENT=8650621 DEFAULT CHARSET=utf8;"
-                      
+    
+               
                       
 CREATE_MAC_TABLE="CREATE TABLE $2.macaddr (
   idMac int(11) unsigned NOT NULL AUTO_INCREMENT,
@@ -95,12 +96,12 @@ INSERT_NULL_MAC_QUERY="insert into $2.macaddr (idMac, M1, M2, M3, M4, M5, M6)
 INSERT_NULL_FLOW_QUERY="insert into $2.flows (idFlows, ipSrc,ipDst, portSrc,portDst)
                   values (1, 1, 1, 0, 0)";
                   
-eval $(printf "mysql -u root -p'%s' -e \"%s\"\n" $1 "$CREATE_MAC_TABLE")     
-eval $(printf "mysql -u root -p'%s' -e \"%s\"\n" $1 "$CREATE_IP_TABLE")   
-eval $(printf "mysql -u root -p'%s' -e \"%s\"\n" $1 "$CREATE_FLOW_TABLE") 
-eval $(printf "mysql -u root -p'%s' -e \"%s\"\n" $1 "$INSERT_NULL_MAC_QUERY")
-eval $(printf "mysql -u root -p'%s' -e \"%s\"\n" $1 "$INSERT_NULL_IP_QUERY")
-eval $(printf "mysql -u root -p'%s' -e \"%s\"\n" $1 "$INSERT_NULL_FLOW_QUERY")
+#eval $(printf "mysql -u root -p'%s' -e \"%s\"\n" $1 "$CREATE_MAC_TABLE")     
+#eval $(printf "mysql -u root -p'%s' -e \"%s\"\n" $1 "$CREATE_IP_TABLE")   
+#eval $(printf "mysql -u root -p'%s' -e \"%s\"\n" $1 "$CREATE_FLOW_TABLE") 
+#eval $(printf "mysql -u root -p'%s' -e \"%s\"\n" $1 "$INSERT_NULL_MAC_QUERY")
+#eval $(printf "mysql -u root -p'%s' -e \"%s\"\n" $1 "$INSERT_NULL_IP_QUERY")
+#eval $(printf "mysql -u root -p'%s' -e \"%s\"\n" $1 "$INSERT_NULL_FLOW_QUERY")
 
 eval $(printf "mysql -u root -p'%s' -e \"%s\"\n" $1 "$CREATE_TABLE_QUERY")    
  
