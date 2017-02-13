@@ -70,12 +70,18 @@ else
                             CSV.DIP3 = TIP2.IP3 and 
                             CSV.DIP4 = TIP2.IP4 ;"
   
-  eval $(printf "mysql -u root -p'%s' -e \"%s\"\n" $1 "$COPY_MAC_QUERY_SRC")
-  eval $(printf "mysql -u root -p'%s' -e \"%s\"\n" $1 "$COPY_MAC_QUERY_DST")
-  
-  
-  eval $(printf "mysql -u root -p'%s' -e \"%s\"\n" $1 "$COPY_IP_QUERY_SRC")
-  eval $(printf "mysql -u root -p'%s' -e \"%s\"\n" $1 "$COPY_IP_QUERY_DST")
+#  eval $(printf "mysql -u root -p'%s' -e \"%s\"\n" $1 "$COPY_MAC_QUERY_SRC")
+#  eval $(printf "mysql -u root -p'%s' -e \"%s\"\n" $1 "$COPY_MAC_QUERY_DST")
+#  
+#  
+#  eval $(printf "mysql -u root -p'%s' -e \"%s\"\n" $1 "$COPY_IP_QUERY_SRC")
+#  eval $(printf "mysql -u root -p'%s' -e \"%s\"\n" $1 "$COPY_IP_QUERY_DST")
+#
+#   eval $(printf "mysql -u root -p'%s' -e \"%s\"\n" $1 "$INSERT_PACKETS_QUERY")
 
-   eval $(printf "mysql -u root -p'%s' -e \"%s\"\n" $1 "$INSERT_PACKETS_QUERY")
+#eval "mysql -u root -p'$1' $2 -e \"ALTER TABLE D11.ipaddr ADD COLUMN ipValue CHAR(20) NOT NULL AFTER IP4\"" 
+#eval "mysql -u root -p'$1' $2 -e \"update D11.ipaddr set ipValue = concat(IP1, \".\", IP2, \".\", IP3, \".\", IP4)\"" 
+
+
+
 fi
