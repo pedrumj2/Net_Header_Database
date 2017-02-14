@@ -4,28 +4,62 @@
 if [ $1 == "-h" ]; then
   printf "Usage <Password> <database> <CSV table>\n"
   printf "note escape special characters in password\n"
-else
+  return
+fi
     
     
- 
-  COPY_MAC_QUERY_SRC="Insert ignore into $2.macaddr (M1, M2, M3, M4, M5, M6)
-                      (SELECT distinct  CONVERT(SM1, unsigned int),
-                      CONVERT(SM2, unsigned int), CONVERT(SM3, unsigned int), CONVERT(SM4, unsigned int), CONVERT(SM5, unsigned int) ,
-                      CONVERT(SM6, unsigned int) FROM $2.CSV);"
-  COPY_MAC_QUERY_DST="Insert ignore into $2.macaddr (M1, M2, M3, M4, M5, M6)
-                      (SELECT distinct  CONVERT(DM1, unsigned int),
-                      CONVERT(DM2, unsigned int), CONVERT(DM3, unsigned int), CONVERT(DM4, unsigned int), CONVERT(DM5, unsigned int) ,
-                      CONVERT(DM6, unsigned int) FROM $2.CSV);"
+# eval "mysql -u root -p'$1' $2 -e \"Insert into $2.macaddr2 (M1, M2, M3, M4, M5, M6, value)
+#                      (SELECT CONVERT(SM1, unsigned int),
+#                      CONVERT(SM2, unsigned int), CONVERT(SM3, unsigned int), CONVERT(SM4, unsigned int), CONVERT(SM5, unsigned int) ,
+#                      CONVERT(SM6, unsigned int), concat(SM1, '.', SM2, '.',SM3, '.',SM4, '.',SM5, '.' ,SM6) FROM $2.CSV);\"" 
+#  eval "mysql -u root -p'$1' $2 -e \"Insert into $2.macaddr2 (M1, M2, M3, M4, M5, M6, value)
+#                      (SELECT CONVERT(DM1, unsigned int),
+#                      CONVERT(DM2, unsigned int), CONVERT(DM3, unsigned int), CONVERT(DM4, unsigned int), CONVERT(DM5, unsigned int) ,
+#                      CONVERT(DM6, unsigned int), concat(DM1,  '.',DM2,  '.',DM3,  '.',DM4,  '.',DM5,  '.', DM6) FROM $2.CSV);\"" 
+#                      
+# 
+#                      
+# eval "mysql -u root -p'$1' $2 -e \"ALTER TABLE $2.macaddr2 
+#                  ADD INDEX M (M1 ASC, M2 ASC, M3 ASC, M4 ASC, M5 ASC, M6 ASC)\""
+#
+# eval "mysql -u root -p'$1' $2 -e \"insert into $2.macaddr(M1, M2, M3, M4, M5, M6, value)
+#                     SELECT DISTINCT M1, M2, M3, M4, M5, M6, value
+#                    FROM $2.macaddr2\""
+                    
+  #remove another null mac address
+#   eval "mysql -u root -p'$1' $2 -e \"delete from $2.macaddr
+#                       where M1=0 and M2 =0 and M3=0 and M4=0 and M5=0 and M6=0 and idMac >1\""
+#   eval "mysql -u root -p'$1' $2 -e \"drop table $2.macaddr2\""
+ eval "mysql -u root -p'$1' $2 -e \"ALTER TABLE $2.macaddr
+                  ADD INDEX M (M1 ASC, M2 ASC, M3 ASC, M4 ASC, M5 ASC, M6 ASC)\""
+
+               
+#               
+#   eval "mysql -u root -p'$1' $2 -e \"Insert into $2.ipaddr2 (IP1, IP2, IP3, IP4, value)
+#                      (SELECT CONVERT(SIP1, unsigned int),
+#                      CONVERT(SIP2, unsigned int), CONVERT(SIP3, unsigned int), CONVERT(SIP4, unsigned int),
+#                       concat(SIP1, '.', SIP2, '.',SIP3, '.',SIP4) FROM $2.CSV);\"" 
+#                      
+#  eval "mysql -u root -p'$1' $2 -e \"Insert into $2.ipaddr2 (IP1, IP2, IP3, IP4, value)
+#                      (SELECT CONVERT(DIP1, unsigned int),
+#                      CONVERT(DIP2, unsigned int), CONVERT(DIP3, unsigned int), CONVERT(DIP4, unsigned int),
+#                       concat(DIP1, '.', DIP2, '.',DIP3, '.',DIP4) FROM $2.CSV);\"" 
+                      
+#                      
+ #eval "mysql -u root -p'$1' $2 -e \"ALTER TABLE $2.ipaddr2 
+ #                 ADD INDEX P (IP1 ASC, IP2 ASC, IP3 ASC, IP4 ASC)\""
+#
+# eval "mysql -u root -p'$1' $2 -e \"insert into $2.ipaddr(IP1, IP2, IP3, IP4, value)
+#                     SELECT DISTINCT IP1, IP2, IP3, IP4,value
+#                    FROM $2.ipaddr2\""
+                    
+  #remove another null address
+  # eval "mysql -u root -p'$1' $2 -e \"delete from $2.ipaddr
+      #                 where IP1=0 and IP2 =0 and IP3=0 and IP4=0 and idIPAddr >1\""
+  # eval "mysql -u root -p'$1' $2 -e \"drop table $2.ipaddr2\""    
   
-  COPY_IP_QUERY_SRC="Insert ignore into $2.ipaddr (IP1, IP2, IP3, IP4) 
-                      (SELECT distinct  CONVERT(SIP1, unsigned int),
-                      CONVERT(SIP2, unsigned int), CONVERT(SIP3, unsigned int), CONVERT(SIP4, unsigned int) from $2.CSV);"
-  COPY_IP_QUERY_DST="Insert ignore into $2.ipaddr (IP1, IP2, IP3, IP4) 
-                      (SELECT distinct  CONVERT(DIP1, unsigned int),
-                      CONVERT(DIP2, unsigned int), CONVERT(DIP3, unsigned int), CONVERT(DIP4, unsigned int) from $2.CSV);"
-                      
-                  
-                      
+  eval "mysql -u root -p'$1' $2 -e \"ALTER TABLE $2.ipaddr 
+                 ADD INDEX P (IP1 ASC, IP2 ASC, IP3 ASC, IP4 ASC)\""                                         
   INSERT_PACKETS_QUERY="Insert into $2.packets(time, macSrc, macDst, vlanTag, ethType, ipSrc, 
                                                   ipDst, IpProto, portSrc, portDst, ipTos, SYN, ACK, FIN, RES, Flow)  
  	                      SELECT  time + time_u/1000000 as time, 
@@ -70,18 +104,10 @@ else
                             CSV.DIP3 = TIP2.IP3 and 
                             CSV.DIP4 = TIP2.IP4 ;"
   
-#  eval $(printf "mysql -u root -p'%s' -e \"%s\"\n" $1 "$COPY_MAC_QUERY_SRC")
-#  eval $(printf "mysql -u root -p'%s' -e \"%s\"\n" $1 "$COPY_MAC_QUERY_DST")
-#  
-#  
-#  eval $(printf "mysql -u root -p'%s' -e \"%s\"\n" $1 "$COPY_IP_QUERY_SRC")
-#  eval $(printf "mysql -u root -p'%s' -e \"%s\"\n" $1 "$COPY_IP_QUERY_DST")
-#
-#   eval $(printf "mysql -u root -p'%s' -e \"%s\"\n" $1 "$INSERT_PACKETS_QUERY")
+
+
+  eval $(printf "mysql -u root -p'%s' -e \"%s\"\n" $1 "$INSERT_PACKETS_QUERY")
 
 #eval "mysql -u root -p'$1' $2 -e \"ALTER TABLE D11.ipaddr ADD COLUMN ipValue CHAR(20) NOT NULL AFTER IP4\"" 
 #eval "mysql -u root -p'$1' $2 -e \"update D11.ipaddr set ipValue = concat(IP1, \".\", IP2, \".\", IP3, \".\", IP4)\"" 
 
-
-
-fi
