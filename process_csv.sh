@@ -30,8 +30,8 @@ fi
 #   eval "mysql -u root -p'$1' $2 -e \"delete from $2.macaddr
 #                       where M1=0 and M2 =0 and M3=0 and M4=0 and M5=0 and M6=0 and idMac >1\""
 #   eval "mysql -u root -p'$1' $2 -e \"drop table $2.macaddr2\""
- eval "mysql -u root -p'$1' $2 -e \"ALTER TABLE $2.macaddr
-                  ADD INDEX M (M1 ASC, M2 ASC, M3 ASC, M4 ASC, M5 ASC, M6 ASC)\""
+# eval "mysql -u root -p'$1' $2 -e \"ALTER TABLE $2.macaddr
+#                  ADD INDEX M (M1 ASC, M2 ASC, M3 ASC, M4 ASC, M5 ASC, M6 ASC)\""
 
                
 #               
@@ -58,8 +58,8 @@ fi
       #                 where IP1=0 and IP2 =0 and IP3=0 and IP4=0 and idIPAddr >1\""
   # eval "mysql -u root -p'$1' $2 -e \"drop table $2.ipaddr2\""    
   
-  eval "mysql -u root -p'$1' $2 -e \"ALTER TABLE $2.ipaddr 
-                 ADD INDEX P (IP1 ASC, IP2 ASC, IP3 ASC, IP4 ASC)\""                                         
+ # eval "mysql -u root -p'$1' $2 -e \"ALTER TABLE $2.ipaddr 
+ #                ADD INDEX P (IP1 ASC, IP2 ASC, IP3 ASC, IP4 ASC)\""                                         
   INSERT_PACKETS_QUERY="Insert into $2.packets(time, macSrc, macDst, vlanTag, ethType, ipSrc, 
                                                   ipDst, IpProto, portSrc, portDst, ipTos, SYN, ACK, FIN, RES, Flow)  
  	                      SELECT  time + time_u/1000000 as time, 
@@ -108,6 +108,6 @@ fi
 
   eval $(printf "mysql -u root -p'%s' -e \"%s\"\n" $1 "$INSERT_PACKETS_QUERY")
 
-#eval "mysql -u root -p'$1' $2 -e \"ALTER TABLE D11.ipaddr ADD COLUMN ipValue CHAR(20) NOT NULL AFTER IP4\"" 
-#eval "mysql -u root -p'$1' $2 -e \"update D11.ipaddr set ipValue = concat(IP1, \".\", IP2, \".\", IP3, \".\", IP4)\"" 
+
+ 
 
