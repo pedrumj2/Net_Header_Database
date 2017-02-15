@@ -89,7 +89,8 @@ CREATE_FLOW_TABLE="CREATE TABLE $2.flows (
   portDst int(11) unsigned NOT NULL,
   startTime dateTime DEFAULT NULL, 
   endTime dateTime DEFAULT NULL, 
-  PRIMARY KEY (idFlows)
+  PRIMARY KEY (idFlows), 
+  INDEX F (ipSrc ASC, ipDst ASC, portSrc ASC, portDst ASC, endTime ASC, startTime ASC)
   ) ENGINE=InnoDB DEFAULT CHARSET=latin1;"
       
 
@@ -103,15 +104,15 @@ INSERT_NULL_FLOW_QUERY="insert into $2.flows (idFlows, ipSrc,ipDst, portSrc,port
                   
 #eval $(printf "mysql -u root -p'%s' -e \"%s\"\n" $1 "$CREATE_MAC_TABLE")     
 #eval $(printf "mysql -u root -p'%s' -e \"%s\"\n" $1 "$CREATE_IP_TABLE")   
-#eval $(printf "mysql -u root -p'%s' -e \"%s\"\n" $1 "$CREATE_FLOW_TABLE") 
+eval $(printf "mysql -u root -p'%s' -e \"%s\"\n" $1 "$CREATE_FLOW_TABLE") 
 #
 #eval "mysql -u root -p'$1' $2 -e \"$INSERT_NULL_MAC_QUERY\"" 
 #eval $(printf "mysql -u root -p'%s' -e \"%s\"\n" $1 "$INSERT_NULL_IP_QUERY")
-#eval $(printf "mysql -u root -p'%s' -e \"%s\"\n" $1 "$INSERT_NULL_FLOW_QUERY")
+eval $(printf "mysql -u root -p'%s' -e \"%s\"\n" $1 "$INSERT_NULL_FLOW_QUERY")
 #eval $(printf "mysql -u root -p'%s' -e \"%s\"\n" $1 "$CREATE_TABLE_QUERY")    
 
-eval "mysql -u root -p'$1' $2 -e \"$CREATE_MAC_TABLE2\"" 
-eval "mysql -u root -p'$1' $2 -e \"$CREATE_IP_TABLE2\"" 
+#eval "mysql -u root -p'$1' $2 -e \"$CREATE_MAC_TABLE2\"" 
+#eval "mysql -u root -p'$1' $2 -e \"$CREATE_IP_TABLE2\"" 
 
 
 

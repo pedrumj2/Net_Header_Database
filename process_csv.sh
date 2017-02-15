@@ -106,7 +106,14 @@ fi
   
 
 
-  eval $(printf "mysql -u root -p'%s' -e \"%s\"\n" $1 "$INSERT_PACKETS_QUERY")
+  #eval $(printf "mysql -u root -p'%s' -e \"%s\"\n" $1 "$INSERT_PACKETS_QUERY")
+  
+   eval "mysql -u root -p'$1' $2 -e \"ALTER TABLE $2.packets 
+                                      ADD INDEX timeI (time ASC)\"" 
+                                      
+                                      
+                                      
+
 
 
  
