@@ -1,11 +1,11 @@
 #!/bin/bash
 
 #deletes all tables from database
+if [ "$#" -ne 2 ]; then
+  echo "Usage: <Password> <database> <CSV table>\n"
+  exit
+fi
 
-if [ $1 == "-h" ]; then
-  printf "Usage <Password> <database> <CSV table>\n"
-  printf "note escape special characters in password\n"
-else
     
   DROP_PACKET_QUERY="DROP TABLE if exists $2.packets"
   DROP_MAC_QUERY="DROP TABLE if exists $2.macaddr"
@@ -18,4 +18,3 @@ else
 
   eval $(printf "mysql -u root -p'%s' -e \"%s\"\n" $1 "$DROP_FLOWS_QUERY") 
   
-fi

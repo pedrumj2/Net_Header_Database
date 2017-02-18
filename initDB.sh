@@ -102,17 +102,17 @@ INSERT_NULL_MAC_QUERY="insert into $2.macaddr (idMac, M1, M2, M3, M4, M5, M6, va
 INSERT_NULL_FLOW_QUERY="insert into $2.flows (idFlows, ipSrc,ipDst, portSrc,portDst, startTime, endTime)
                   values (1, 1, 1, 0, 0, from_unixtime(1487017060),from_unixtime(1487017060))";
                   
-#eval $(printf "mysql -u root -p'%s' -e \"%s\"\n" $1 "$CREATE_MAC_TABLE")     
-#eval $(printf "mysql -u root -p'%s' -e \"%s\"\n" $1 "$CREATE_IP_TABLE")   
+eval $(printf "mysql -u root -p'%s' -e \"%s\"\n" $1 "$CREATE_MAC_TABLE")     
+eval $(printf "mysql -u root -p'%s' -e \"%s\"\n" $1 "$CREATE_IP_TABLE")   
 eval $(printf "mysql -u root -p'%s' -e \"%s\"\n" $1 "$CREATE_FLOW_TABLE") 
 #
-#eval "mysql -u root -p'$1' $2 -e \"$INSERT_NULL_MAC_QUERY\"" 
-#eval $(printf "mysql -u root -p'%s' -e \"%s\"\n" $1 "$INSERT_NULL_IP_QUERY")
+eval "mysql -u root -p'$1' $2 -e \"$INSERT_NULL_MAC_QUERY\"" 
+eval $(printf "mysql -u root -p'%s' -e \"%s\"\n" $1 "$INSERT_NULL_IP_QUERY")
 eval $(printf "mysql -u root -p'%s' -e \"%s\"\n" $1 "$INSERT_NULL_FLOW_QUERY")
-#eval $(printf "mysql -u root -p'%s' -e \"%s\"\n" $1 "$CREATE_TABLE_QUERY")    
+eval $(printf "mysql -u root -p'%s' -e \"%s\"\n" $1 "$CREATE_TABLE_QUERY")    
 
-#eval "mysql -u root -p'$1' $2 -e \"$CREATE_MAC_TABLE2\"" 
-#eval "mysql -u root -p'$1' $2 -e \"$CREATE_IP_TABLE2\"" 
+eval "mysql -u root -p'$1' $2 -e \"$CREATE_MAC_TABLE2\"" 
+eval "mysql -u root -p'$1' $2 -e \"$CREATE_IP_TABLE2\"" 
 
 
 
